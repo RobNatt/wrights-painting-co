@@ -1,0 +1,257 @@
+@import "tailwindcss";
+
+/* Tokens from design-system.md, section 3 and 4 */
+@theme inline {
+  --color-sand: #f5efe3;
+  --color-paper: #fbf8f2;
+  --color-sand-deep: #eae0cc;
+  --color-charcoal: #2a2a28;
+  --color-slate: #5a564f;
+  --color-shutter: #1d4a4c;
+  --color-shutter-dark: #14373a;
+  --color-shutter-tint: #dce7e4;
+  --color-brick: #9e3b2a;
+  --color-border: #d6cbb6;
+  --color-input-border: #857b6d;
+
+  --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-public-sans), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --ease-house: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root {
+  --header-full: 72px;
+  --header-compact: 56px;
+}
+@media (min-width: 1024px) {
+  :root {
+    --header-full: 96px;
+    --header-compact: 64px;
+  }
+}
+
+@layer base {
+  html {
+    background: var(--color-sand);
+    color: var(--color-charcoal);
+    scroll-padding-top: calc(var(--header-compact) + 16px);
+    /* keep focused fields clear of the phone Call / Quote bar */
+    scroll-padding-bottom: 96px;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-shutter);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  a {
+    text-underline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Type scale (design-system.md 4) */
+  .text-display {
+    font-size: clamp(2.25rem, 1.6rem + 3vw, 3.5rem);
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .text-h1 {
+    font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+    line-height: 1.15;
+    font-weight: 700;
+  }
+  .text-h2 {
+    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+    line-height: 1.2;
+    font-weight: 600;
+  }
+  .text-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-slate);
+  }
+
+  /* Buttons (design-system.md 6) */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0 1.25rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 150ms var(--ease-house), color 150ms var(--ease-house),
+      border-color 150ms var(--ease-house);
+  }
+  .btn-primary {
+    background: var(--color-shutter);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: var(--color-shutter-dark);
+  }
+  .btn-secondary {
+    border: 2px solid var(--color-shutter);
+    color: var(--color-shutter);
+    background: transparent;
+  }
+  .btn-secondary:hover {
+    background: var(--color-shutter-tint);
+  }
+  .link {
+    color: var(--color-shutter);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  /* Form fields */
+  .field {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.625rem 0.75rem;
+    background: var(--color-paper);
+    border: 1px solid var(--color-input-border);
+    border-radius: 4px;
+    color: var(--color-charcoal);
+    font: inherit;
+  }
+  .field:focus {
+    outline: 3px solid var(--color-shutter);
+    outline-offset: 2px;
+    border-color: var(--color-shutter);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-brick);
+  }
+
+  /* Placeholder marker: temporary, remove by setting site.markPlaceholders = false */
+  .ph-on {
+    outline: 1.5px dashed var(--color-brick);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  .ph-tag {
+    display: inline-block;
+    margin-left: 0.375rem;
+    padding: 0 0.3rem;
+    font-family: var(--font-sans);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    color: var(--color-brick);
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    line-height: 1.5;
+  }
+
+  /* Photo slot: an obviously-empty frame waiting for Mo's real job photo */
+  .photo-slot {
+    background-color: var(--color-sand-deep);
+    outline: 1.5px dashed var(--color-input-border);
+    outline-offset: -8px;
+  }
+}
+
+/* Placeholder markers on the dark shutter band (unlayered, so they beat utilities) */
+.bg-shutter .ph-on {
+  outline-color: var(--color-sand);
+}
+.bg-shutter .ph-note {
+  color: var(--color-sand);
+}
+
+/* ---------- Section header reveal (design-system.md 7.4) ----------
+   Visible by default. Hidden start state only applies once the inline
+   script in layout.tsx has added .js to <html>. */
+.reveal-rule {
+  transform-origin: left center;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal]:not(.is-in) .reveal-rule {
+    transform: scaleX(0);
+  }
+  .js [data-reveal]:not(.is-in) .reveal-text {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  [data-reveal] .reveal-rule {
+    transition: transform 400ms var(--ease-house);
+  }
+  [data-reveal] .reveal-text {
+    transition: opacity 400ms var(--ease-house), transform 400ms var(--ease-house);
+  }
+}
+
+/* ---------- Sticky header (design-system.md 7.1) ---------- */
+.site-header {
+  height: var(--header-full);
+  transition: height 200ms var(--ease-house), background-color 200ms var(--ease-house),
+    box-shadow 200ms var(--ease-house);
+}
+.site-header[data-compact="true"] {
+  height: var(--header-compact);
+  background-color: var(--color-paper);
+  box-shadow: 0 2px 8px rgb(42 42 40 / 0.08);
+}
+.site-header .brand {
+  transform-origin: left center;
+  transition: transform 200ms var(--ease-house);
+}
+.site-header[data-compact="true"] .brand {
+  transform: scale(0.85);
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .site-header .brand {
+    transition: none;
+  }
+}
+
+/* ---------- Work strip (design-system.md 7.3) ---------- */
+.work-strip {
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+.work-strip > * {
+  scroll-snap-align: start;
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-strip {
+    scroll-snap-type: none;
+  }
+}
